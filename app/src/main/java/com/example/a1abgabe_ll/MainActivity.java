@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
                 MatrikelNMR.setText("Deine Matrikelnummer: ");
             }
         });
-        System.out.println("New");
+
         //Prim-Code
         /*
         public class prim {
