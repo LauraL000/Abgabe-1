@@ -5,48 +5,56 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ThemedSpinnerAdapter;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
-     Button Prim;
-     TextView MatrikelNMR;
+     Button send;
+     EditText MatrikelNMR;
+     TextView answer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MatrikelNMR=findViewById(R.id.textView);
-        Prim= findViewById(R.id.button);
-
-
-        //Prim-Code
-        /*
-        public class prim {
-    public static void main(String[] args) {
-        int Eingabe = 100;
-
-        for (int i = 1; i < Eingabe; i++) {
-            if (isPrime(i)) {
-                System.out.println(i);
+        MatrikelNMR=findViewById(R.id.editTextNumber);
+        answer= findViewById(R.id.textView);
+        send= findViewById(R.id.button);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendToServer();
             }
-        }
+        });
+
     }
-    //Aufteilen
-    static boolean isPrime(int number){
-        boolean isprime=true;
-        for (int i = 2; i<number; i++){
-            if(number%i==0){
-                isprime=false;
-                break;
+
+
+    public void sendToServer(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Socket socket = new Socket("se2-isys.aau.at", 53212);
+                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                    BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+                    out.close();
+                    socket.close();
+
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             }
-        }
-        return isprime;
+        });
+        thread.start();
     }
-} */
-
-    }
-    //Code mit Knöpfe
-
-
-
-
 }
