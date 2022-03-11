@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
      EditText MatrikelNMR;
      TextView answer;
      String txt;
+     String prim= "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,16 @@ public class MainActivity extends AppCompatActivity {
         send= findViewById(R.id.button);
         send.setOnClickListener(view ->  {
             sendToServer();
+        });
+        berechnen= findViewById(R.id.button2);
+        berechnen.setOnClickListener(view -> {
+            prim="";
+            for (int i = 0; i < MatrikelNMR.length(); i++) {
+                if (isPrime (Integer.parseInt(String.valueOf( MatrikelNMR.getText().toString().charAt(i))))) {
+                    prim+=MatrikelNMR.getText().charAt(i);
+                }
+            }
+            answer.setText(prim);
         });
     }
 
@@ -58,4 +69,20 @@ public class MainActivity extends AppCompatActivity {
         });
         thread.start();
     }
+    static boolean isPrime(int number){
+        boolean isprime=true;
+
+        if (number==1){
+            return false;
+        }
+
+        for (int i = 2; i <= number / 2; ++i) {
+            if(number%i==0){
+                isprime=false;
+                break;
+            }
+        }
+        return isprime;
+    }
+
 }
