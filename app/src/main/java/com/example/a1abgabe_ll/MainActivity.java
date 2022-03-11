@@ -11,6 +11,7 @@ import android.widget.ThemedSpinnerAdapter;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -19,14 +20,14 @@ public class MainActivity extends AppCompatActivity {
      Button send;
      EditText MatrikelNMR;
      TextView answer;
-
+     String txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MatrikelNMR=findViewById(R.id.editTextNumber);
-        answer= findViewById(R.id.textView);
+        answer= findViewById(R.id.textView2);
         send= findViewById(R.id.button);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,9 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 sendToServer();
             }
         });
-
     }
-
 
     public void sendToServer(){
         Thread thread = new Thread(new Runnable() {
@@ -44,17 +43,26 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 try {
                     Socket socket = new Socket("se2-isys.aau.at", 53212);
-                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
                     BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+
+                    out.writeBytes(MatrikelNMR.getText().toString()+'\n');
+                    txt= br.readLine();
 
                     out.close();
                     socket.close();
 
-                } catch (Exception exception) {
+                } catch (IOException exception) {
                     exception.printStackTrace();
                 }
             }
         });
         thread.start();
+        try {
+            thread.join();
+        }catch (InterruptedException interruptedException){
+            interruptedException.printStackTrace();
+        }
+        answer.setText(txt);
     }
 }
