@@ -18,6 +18,7 @@ import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
      Button send;
+     Button berechnen;
      EditText MatrikelNMR;
      TextView answer;
      String txt;
@@ -29,11 +30,8 @@ public class MainActivity extends AppCompatActivity {
         MatrikelNMR=findViewById(R.id.editTextNumber);
         answer= findViewById(R.id.textView2);
         send= findViewById(R.id.button);
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendToServer();
-            }
+        send.setOnClickListener(view ->  {
+            sendToServer();
         });
     }
 
@@ -51,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
                     out.close();
                     socket.close();
+                    answer.setText(txt);
 
                 } catch (IOException exception) {
                     exception.printStackTrace();
@@ -58,11 +57,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         thread.start();
-        try {
-            thread.join();
-        }catch (InterruptedException interruptedException){
-            interruptedException.printStackTrace();
-        }
-        answer.setText(txt);
     }
 }
