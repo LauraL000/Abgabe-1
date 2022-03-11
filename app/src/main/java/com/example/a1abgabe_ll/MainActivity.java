@@ -16,13 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         MatrikelNMR=findViewById(R.id.textView);
         Prim= findViewById(R.id.button);
-        Prim.setOnClickListener(new View.OnClickListener() {
-            //Zum Server
-            @Override
-            public void onClick(View view) {
-                MatrikelNMR.setText("Deine Matrikelnummer: ");
-            }
-        });
+
 
         //Prim-Code
         /*
@@ -36,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    //Aufteilen
     static boolean isPrime(int number){
         boolean isprime=true;
         for (int i = 2; i<number; i++){
