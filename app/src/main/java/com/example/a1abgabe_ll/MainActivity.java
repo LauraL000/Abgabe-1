@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     static boolean isPrime(int number){
         boolean isprime=true;
 
-        if (number==1){
+        if (number==1 || number ==0){
             return false;
         }
 
